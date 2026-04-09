@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/JayeshBadgujar18/QuickAi-server#readme",
   "dependencies": {
+    "@clerk/express": "^2.1.0",
     "@neondatabase/serverless": "^1.0.2",
     "axios": "^1.14.0",
     "cloudinary": "^2.9.0",
