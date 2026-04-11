@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { clerkMiddleware, requireAuth } from '@clerk/express'
+import { clerkMiddleware, getAuth } from '@clerk/express'
 import aiRouter from './routes/airoutes.js';
 const app = express();
 
@@ -13,7 +13,14 @@ app.get('/', (req, res) => {
     res.send('QuickAi Server is running...');
 });
 
-app.use(requireAuth())
+// Protect all routes below this point — replaces deprecated requireAuth()
+app.use((req, res, next) => {
+    const { userId } = getAuth(req);
+    if (!userId) {
+        return res.status(401).json({ success: false, message: 'Unauthenticated' });
+    }
+    next();
+});
 
 app.use('/api/ai',aiRouter)
 
